@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+{% from "partials/icons.html" import icon %}
+{% block title %}نتائج القضية{% endblock %}
+{% block content %}
+<a class="back-link" href="{{ url_for('investigator.case_detail', case_id=case_row.case_id) }}">{{ icon('arrow', 'icon icon-sm') }}{{ case_row.case_title }}</a>
+<h1>نتائج التحليل</h1>
+{% if not latest %}
+<section class="panel">
+<div class="empty">
+{{ icon('chart', 'empty-icon') }}
+<p>لا توجد نتائج لهذه القضية بعد</p>
+<a class="btn" href="{{ url_for('investigator.case_detail', case_id=case_row.case_id) }}">{{ icon('cpu') }}<span>العودة إلى القضية</span></a>
+</div>
+</section>
+{% else %}
+<section class="bento bento-wide" aria-label="مؤشرات التحليل">
+<article class="kpi kpi-span">
+<span class="kpi-label">إجمالي الأحداث</span>
+<strong class="kpi-value">{{ latest.total_events }}</strong>
+<svg class="stack-bar" viewBox="0 0 100 6" preserveAspectRatio="none" role="img" aria-label="المستبعدة {{ ratio }}%">
+<rect class="bar-track" x="0" y="0" width="100" height="6" rx="3"></rect>
+<rect class="seg-open" x="{{ ratio }}" y="0" width="{{ 100 - ratio }}" height="6"></rect>
+</svg>
+<span class="kpi-foot">{{ latest.removed_events }} مستبعد ({{ ratio }}%)</span>
+{{ icon('activity', 'kpi-icon') }}
+</article>
+<article class="kpi">
+<span class="kpi-label">الأحداث الرئيسية</span>
+<strong class="kpi-value">{{ latest.key_events }}</strong>
+{{ icon('eye', 'kpi-icon') }}
+</article>
+<article class="kpi">
+<span class="kpi-label">المجموعات</span>
+<strong class="kpi-value">{{ latest.group_count }}</strong>
+{{ icon('layers', 'kpi-icon') }}
+</article>
+<article class="kpi kpi-alert">
+<span class="kpi-label">الأحداث الحرجة</span>
+<strong class="kpi-value">{{ latest.critical_count }}</strong>
+{{ icon('alert', 'kpi-icon') }}
+</article>
+</section>
+<div class="tabs" role="tablist">
+<button type="button" class="tab is-active" data-tab="summary">{{ icon('file') }}<span>ملخص الحادثة</span></button>
+<button type="button" class="tab" data-tab="timeline">{{ icon('clock') }}<span>الخط الزمني</span></button>
+<button type="button" class="tab" data-tab="groups">{{ icon('layers') }}<span>المجموعات</span></button>
+</div>
+<section class="panel tab-panel" id="panel-summary">
+<div class="summary-text">{{ latest.summary_text }}</div>
+<p class="notice">نتائج المنصة مساندة للمحقق ولا تمثل قراراً قانونياً، والمحقق مسؤول عن التحقق منها واستخلاص الاستنتاجات</p>
+<p>وقت توليد التحليل {{ latest.generated_at|fmt_dt }}</p>
+<p class="hint">جميع الأوقات بتوقيت UTC</p>
+{% if previous %}
+<details class="previous">
+<summary>التحليلات السابقة</summary>
+{% for item in previous %}
+<article class="previous-item">
+<p>{{ item.generated_at|fmt_dt }}</p>
+<div class="summary-text">{{ item.summary_text }}</div>
+</article>
+{% endfor %}
+</details>
+{% endif %}
+</section>
+<section class="panel tab-panel is-hidden" id="panel-timeline">
+<div id="results-root" data-events-url="{{ url_for('api.events', case_id=case_row.case_id) }}" data-groups-url="{{ url_for('api.groups', case_id=case_row.case_id) }}" data-noise="{{ latest.removed_events }}">
+<form id="filters" class="filters">
+<label for="q">بحث</label>
+<input id="q" name="q" type="search">
+<label for="source">المصدر</label>
+<select id="source" name="source">
+<option value="">الكل</option>
+<option value="Log">سجلات النظام والتطبيقات</option>
+<option value="Browser History">سجل المتصفح</option>
+<option value="Login Events">أحداث تسجيل الدخول</option>
+<option value="File Events">أحداث الملفات</option>
+</select>
+<fieldset class="levels">
+<legend>الأهمية</legend>
+<label class="check"><input type="checkbox" name="importance" value="حرج"> حرج</label>
+<label class="check"><input type="checkbox" name="importance" value="عالٍ"> عالٍ</label>
+<label class="check"><input type="checkbox" name="importance" value="متوسط"> متوسط</label>
+<label class="check"><input type="checkbox" name="importance" value="منخفض"> منخفض</label>
+</fieldset>
+<label for="user">المستخدم</label>
+<input id="user" name="user" type="text">
+<label for="device">الجهاز</label>
+<input id="device" name="device" type="text">
+<label for="ip">عنوان IP</label>
+<input id="ip" name="ip" type="text" class="ltr">
+<label for="file">الملف أو الرابط</label>
+<input id="file" name="file" type="text">
+<label for="from">من</label>
+<input id="from" name="from" type="datetime-local">
+<label for="to">إلى</label>
+<input id="to" name="to" type="datetime-local">
+<label class="check"><input id="include_noise" name="include_noise" type="checkbox"> إظهار الأحداث المستبعدة (<span dir="ltr">{{ latest.removed_events }}</span>)</label>
+<input id="group" name="group" type="hidden" value="">
+<div class="dialog-actions">
+<button type="button" class="btn btn-ghost" id="order-button" data-order="asc">الأحدث أولاً</button>
+<button type="button" class="btn btn-ghost" id="reset-button">إعادة ضبط</button>
+</div>
+</form>
+<p id="filter-note" class="hint"></p>
+<div id="events-list" class="timeline" aria-live="polite"></div>
+<p class="hint">جميع الأوقات بتوقيت UTC. اضغط أي حدث لفتح تفاصيله</p>
+<div id="pager" class="pager"></div>
+</div>
+</section>
+<section class="panel tab-panel is-hidden" id="panel-groups">
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th>العنوان</th><th>الخطورة</th><th>من</th><th>إلى</th><th>الأحداث</th><th>الرئيسية</th><th>المستخدم</th><th>الجهاز</th><th>العنوان</th><th>المراحل</th><th></th>
+</tr>
+</thead>
+<tbody id="groups-body"></tbody>
+</table>
+</div>
+<p class="hint">جميع الأوقات بتوقيت UTC</p>
+</section>
+<dialog class="dialog" id="event-dialog">
+<div id="event-dialog-body"></div>
+<div class="dialog-actions">
+<button type="button" class="btn" id="event-group">عرض أحداث هذه المجموعة</button>
+<button type="button" class="btn btn-ghost" id="event-close">إغلاق</button>
+</div>
+</dialog>
+{% endif %}
+{% endblock %}
+{% block scripts %}{% if latest %}<script src="/assets/js/results.js"></script>{% endif %}{% endblock %}
+

@@ -1,0 +1,8 @@
+.env
+TEST_ACCOUNTS.md
+__pycache__/
+*.pyc
+data/
+uploads/
+logs/
+graphify-out/

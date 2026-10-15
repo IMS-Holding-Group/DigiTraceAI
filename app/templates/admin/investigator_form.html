@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% from "partials/icons.html" import icon %}
+{% block title %}{% if mode == 'new' %}إضافة محقق{% else %}تعديل محقق{% endif %}{% endblock %}
+{% block content %}
+<a class="back-link" href="{{ url_for('admin.investigators') }}">{{ icon('arrow', 'icon icon-sm') }}المحققون</a>
+<h1>{% if mode == 'new' %}إضافة محقق{% else %}تعديل محقق{% endif %}</h1>
+<form method="post" class="panel form-panel">
+<input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+<label for="full_name">الاسم</label>
+<input id="full_name" name="full_name" type="text" value="{{ form.full_name }}">
+{% if errors.full_name %}<p class="field-error">{{ errors.full_name }}</p>{% endif %}
+<label for="username">اسم المستخدم</label>
+<input id="username" name="username" type="text" value="{{ form.username }}" autocomplete="off">
+{% if errors.username %}<p class="field-error">{{ errors.username }}</p>{% endif %}
+<label for="email">البريد الإلكتروني</label>
+<input id="email" name="email" type="text" value="{{ form.email }}">
+{% if errors.email %}<p class="field-error">{{ errors.email }}</p>{% endif %}
+<label for="password">{% if mode == 'new' %}كلمة السر{% else %}كلمة سر جديدة (اختياري){% endif %}</label>
+<div class="password-row">
+<input id="password" name="password" type="password" autocomplete="new-password">
+<button type="button" class="btn btn-ghost" data-toggle-password="password">إظهار</button>
+</div>
+{% if errors.password %}<p class="field-error">{{ errors.password }}</p>{% endif %}
+<div class="form-actions">
+<button type="submit" class="btn">{{ icon('check') }}<span>{% if mode == 'new' %}إضافة المحقق{% else %}حفظ التعديل{% endif %}</span></button>
+<a class="btn btn-ghost" href="{{ url_for('admin.investigators') }}">إلغاء</a>
+</div>
+</form>
+{% endblock %}

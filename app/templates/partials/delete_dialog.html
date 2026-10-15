@@ -1,0 +1,10 @@
+<dialog class="dialog" id="confirm-dialog">
+<form method="post" id="confirm-form" action="">
+<p id="confirm-text"></p>
+<input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+<div class="dialog-actions">
+<button type="submit" class="btn btn-danger" id="confirm-submit">حذف</button>
+<button type="button" class="btn btn-ghost" id="confirm-cancel">إلغاء</button>
+</div>
+</form>
+</dialog>

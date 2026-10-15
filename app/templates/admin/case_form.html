@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% from "partials/icons.html" import icon %}
+{% block title %}{% if mode == 'new' %}إضافة قضية{% else %}تعديل قضية{% endif %}{% endblock %}
+{% block content %}
+<a class="back-link" href="{{ url_for('admin.cases') }}">{{ icon('arrow', 'icon icon-sm') }}القضايا</a>
+<h1>{% if mode == 'new' %}إضافة قضية{% else %}تعديل قضية{% endif %}</h1>
+<form method="post" class="panel form-panel">
+<input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+<label for="case_title">عنوان القضية</label>
+<input id="case_title" name="case_title" type="text" value="{{ form.case_title }}">
+{% if errors.case_title %}<p class="field-error">{{ errors.case_title }}</p>{% endif %}
+<label for="description">الوصف</label>
+<textarea id="description" name="description" rows="4">{{ form.description }}</textarea>
+{% if errors.description %}<p class="field-error">{{ errors.description }}</p>{% endif %}
+{% if mode == 'edit' %}
+<label for="status">الحالة</label>
+<select id="status" name="status">
+<option value="Open" {% if form.status == 'Open' %}selected{% endif %}>مفتوحة</option>
+<option value="Analyzed" {% if form.status == 'Analyzed' %}selected{% endif %}>محللة</option>
+<option value="Closed" {% if form.status == 'Closed' %}selected{% endif %}>مغلقة</option>
+</select>
+{% endif %}
+<fieldset class="assign-list">
+<legend>إسناد المحققين</legend>
+{% for person in investigators %}
+<label class="check"><input type="checkbox" name="investigator_ids" value="{{ person.user_id }}" {% if person.user_id in form.investigator_ids %}checked{% endif %}> {{ person.full_name }} ({{ person.username }})</label>
+{% else %}
+<p>لا يوجد محققون لإسنادهم</p>
+{% endfor %}
+</fieldset>
+<div class="form-actions">
+<button type="submit" class="btn">{{ icon('check') }}<span>{% if mode == 'new' %}إضافة القضية{% else %}حفظ التعديل{% endif %}</span></button>
+<a class="btn btn-ghost" href="{{ url_for('admin.cases') }}">إلغاء</a>
+</div>
+</form>
+{% endblock %}

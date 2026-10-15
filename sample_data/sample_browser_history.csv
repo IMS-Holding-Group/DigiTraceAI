@@ -1,0 +1,104 @@
+visit_time,username,device,url,title,visit_type
+2026-10-10T07:03:56Z,b.subaie,WS-09,https://www.office.com/launch/word,معالج النصوص,visit
+2026-10-10T07:12:55Z,k.mutairi,WS-07,https://outlook.office365.com/mail/inbox,البريد,visit
+2026-10-10T07:14:14Z,s.harbi,WS-06,https://www.bing.com/search?q=meeting+agenda+template,meeting agenda template,visit
+2026-10-10T07:17:34Z,f.dosari,WS-03,https://www.bing.com/search?q=meeting+agenda+template,meeting agenda template,visit
+2026-10-10T07:18:48Z,l.qahtani,WS-05,https://www.bing.com/search?q=meeting+agenda+template,meeting agenda template,visit
+2026-10-10T07:20:16Z,b.subaie,WS-09,https://docs.microsoft.com/windows/support,دعم ويندوز,visit
+2026-10-10T08:06:12Z,w.anazi,WS-12,https://www.microsoft.com/ar-sa/windows,ويندوز,visit
+2026-10-10T08:06:22Z,a.saad,WS-01,https://www.google.com/search?q=excel+sum+column,excel sum column,visit
+2026-10-10T08:49:38Z,f.dosari,WS-03,https://www.spa.gov.sa/news/local,وكالة الأنباء السعودية,visit
+2026-10-10T09:12:31Z,d.zahrani,WS-10,https://www.bing.com/search?q=meeting+agenda+template,meeting agenda template,visit
+2026-10-10T09:19:07Z,r.shammari,WS-08,https://www.office.com/launch/word,معالج النصوص,visit
+2026-10-10T09:29:11Z,k.mutairi,WS-07,https://outlook.office365.com/mail/inbox,البريد,visit
+2026-10-10T09:29:35Z,l.qahtani,WS-05,https://www.spa.gov.sa/news/local,وكالة الأنباء السعودية,visit
+2026-10-10T09:58:40Z,h.ghamdi,WS-04,https://www.google.com/search?q=weather+riyadh,weather riyadh,visit
+2026-10-10T10:09:17Z,h.ghamdi,WS-04,https://www.microsoft.com/ar-sa/windows,ويندوز,visit
+2026-10-10T11:25:48Z,k.mutairi,WS-07,https://www.google.com/search?q=excel+sum+column,excel sum column,visit
+2026-10-10T11:36:42Z,s.harbi,WS-06,https://www.spa.gov.sa/news/local,وكالة الأنباء السعودية,visit
+2026-10-10T12:12:56Z,w.anazi,WS-12,https://www.spa.gov.sa/news/local,وكالة الأنباء السعودية,visit
+2026-10-10T12:25:14Z,s.harbi,WS-06,https://outlook.office365.com/mail/inbox,البريد,visit
+2026-10-10T12:31:06Z,f.dosari,WS-03,https://www.microsoft.com/ar-sa/windows,ويندوز,visit
+2026-10-10T12:45:25Z,b.subaie,WS-09,https://www.office.com/launch/word,معالج النصوص,visit
+2026-10-10T13:02:01Z,b.subaie,WS-09,https://www.microsoft.com/ar-sa/windows,ويندوز,visit
+2026-10-10T13:11:14Z,h.ghamdi,WS-04,https://www.alarabiya.net/saudi-today,أخبار اليوم,visit
+2026-10-10T13:20:18Z,l.qahtani,WS-05,https://www.microsoft.com/ar-sa/windows,ويندوز,visit
+2026-10-10T13:21:24Z,m.alharbi,WS-FIN-07,https://www.microsoft.com/ar-sa/windows,ويندوز,visit
+2026-10-10T13:35:33Z,m.alharbi,WS-FIN-07,https://outlook.office365.com/mail/inbox,البريد,visit
+2026-10-10T13:49:03Z,r.shammari,WS-08,https://www.google.com/search?q=weather+riyadh,weather riyadh,visit
+2026-10-10T14:08:06Z,f.dosari,WS-03,https://www.microsoft.com/ar-sa/windows,ويندوز,visit
+2026-10-10T14:13:18Z,f.dosari,WS-03,https://outlook.office365.com/mail/inbox,البريد,visit
+2026-10-10T14:22:54Z,d.zahrani,WS-10,https://www.google.com/search?q=excel+sum+column,excel sum column,visit
+2026-10-10T14:26:07Z,a.saad,WS-01,https://www.microsoft.com/ar-sa/windows,ويندوز,visit
+2026-10-10T14:55:08Z,w.anazi,WS-12,https://www.spa.gov.sa/news/local,وكالة الأنباء السعودية,visit
+2026-10-11T06:00:19Z,a.saad,WS-01,https://www.spa.gov.sa/news/local,وكالة الأنباء السعودية,visit
+2026-10-11T06:05:56Z,s.harbi,WS-06,https://www.alarabiya.net/saudi-today,أخبار اليوم,visit
+2026-10-11T06:19:33Z,a.saad,WS-01,https://www.spa.gov.sa/news/local,وكالة الأنباء السعودية,visit
+2026-10-11T06:33:46Z,d.zahrani,WS-10,https://www.bing.com/search?q=meeting+agenda+template,meeting agenda template,visit
+2026-10-11T07:58:18Z,s.harbi,WS-06,https://www.spa.gov.sa/news/local,وكالة الأنباء السعودية,visit
+2026-10-11T08:12:35Z,s.harbi,WS-06,https://www.alarabiya.net/saudi-today,أخبار اليوم,visit
+2026-10-11T08:52:26Z,a.saad,WS-01,https://docs.microsoft.com/windows/support,دعم ويندوز,visit
+2026-10-11T09:32:25Z,n.otaibi,WS-02,https://docs.microsoft.com/windows/support,دعم ويندوز,visit
+2026-10-11T09:40:23Z,f.dosari,WS-03,https://outlook.office365.com/mail/inbox,البريد,visit
+2026-10-11T10:13:29Z,h.ghamdi,WS-04,https://www.office.com/launch/word,معالج النصوص,visit
+2026-10-11T10:51:17Z,w.anazi,WS-12,https://www.bing.com/search?q=meeting+agenda+template,meeting agenda template,visit
+2026-10-11T11:16:05Z,n.otaibi,WS-02,https://www.alarabiya.net/saudi-today,أخبار اليوم,visit
+2026-10-11T12:16:14Z,f.dosari,WS-03,https://www.microsoft.com/ar-sa/windows,ويندوز,visit
+2026-10-11T12:37:23Z,w.anazi,WS-12,https://outlook.office365.com/mail/inbox,البريد,visit
+2026-10-11T12:46:03Z,w.anazi,WS-12,https://www.alarabiya.net/saudi-today,أخبار اليوم,visit
+2026-10-11T13:12:14Z,h.ghamdi,WS-04,https://docs.microsoft.com/windows/support,دعم ويندوز,visit
+2026-10-11T13:18:49Z,s.harbi,WS-06,https://www.alarabiya.net/saudi-today,أخبار اليوم,visit
+2026-10-11T13:19:16Z,r.shammari,WS-08,https://www.spa.gov.sa/news/local,وكالة الأنباء السعودية,visit
+2026-10-11T14:00:01Z,k.mutairi,WS-07,https://www.google.com/search?q=weather+riyadh,weather riyadh,visit
+2026-10-11T14:15:02Z,n.otaibi,WS-02,https://www.google.com/search?q=weather+riyadh,weather riyadh,visit
+2026-10-11T14:51:10Z,w.anazi,WS-12,https://www.microsoft.com/ar-sa/windows,ويندوز,visit
+2026-10-11T14:56:42Z,w.anazi,WS-12,https://www.google.com/search?q=weather+riyadh,weather riyadh,visit
+2026-10-12T02:14:30Z,m.alharbi,WS-FIN-07,https://www.7-zip.org/a/7z2301-x64.exe,7-Zip download,download
+2026-10-12T02:29:10Z,m.alharbi,WS-FIN-07,https://files.example-share.com,Anonymous File Upload,visit
+2026-10-12T02:36:10Z,m.alharbi,WS-FIN-07,https://www.google.com/search?q=how+to+delete+windows+event+logs,how to delete windows event logs,visit
+2026-10-12T06:24:03Z,r.shammari,WS-08,https://www.spa.gov.sa/news/local,وكالة الأنباء السعودية,visit
+2026-10-12T06:38:55Z,n.otaibi,WS-02,https://docs.microsoft.com/windows/support,دعم ويندوز,visit
+2026-10-12T07:16:07Z,r.shammari,WS-08,https://www.office.com/launch/word,معالج النصوص,visit
+2026-10-12T07:16:31Z,s.harbi,WS-06,https://www.office.com/launch/word,معالج النصوص,visit
+2026-10-12T07:26:46Z,m.alharbi,WS-FIN-07,https://www.microsoft.com/ar-sa/windows,ويندوز,visit
+2026-10-12T07:40:02Z,a.saad,WS-01,https://www.office.com/launch/word,معالج النصوص,visit
+2026-10-12T07:48:24Z,l.qahtani,WS-05,https://www.microsoft.com/ar-sa/windows,ويندوز,visit
+2026-10-12T08:01:01Z,a.saad,WS-01,https://www.spa.gov.sa/news/local,وكالة الأنباء السعودية,visit
+2026-10-12T08:16:08Z,k.mutairi,WS-07,https://outlook.office365.com/mail/inbox,البريد,visit
+2026-10-12T08:18:53Z,l.qahtani,WS-05,https://outlook.office365.com/mail/inbox,البريد,visit
+2026-10-12T08:19:48Z,t.maliki,WS-11,https://www.google.com/search?q=weather+riyadh,weather riyadh,visit
+2026-10-12T08:36:59Z,t.maliki,WS-11,https://www.office.com/launch/word,معالج النصوص,visit
+2026-10-12T08:40:09Z,w.anazi,WS-12,https://www.office.com/launch/word,معالج النصوص,visit
+2026-10-12T08:46:07Z,w.anazi,WS-12,https://www.alarabiya.net/saudi-today,أخبار اليوم,visit
+2026-10-12T09:16:39Z,h.ghamdi,WS-04,https://docs.microsoft.com/windows/support,دعم ويندوز,visit
+2026-10-12T09:34:16Z,a.saad,WS-01,https://outlook.office365.com/mail/inbox,البريد,visit
+2026-10-12T12:05:07Z,b.subaie,WS-09,https://www.office.com/launch/word,معالج النصوص,visit
+2026-10-12T12:16:44Z,a.saad,WS-01,https://www.spa.gov.sa/news/local,وكالة الأنباء السعودية,visit
+2026-10-12T12:23:29Z,t.maliki,WS-11,https://www.spa.gov.sa/news/local,وكالة الأنباء السعودية,visit
+2026-10-12T13:23:12Z,l.qahtani,WS-05,https://www.microsoft.com/ar-sa/windows,ويندوز,visit
+2026-10-12T14:05:54Z,w.anazi,WS-12,https://www.office.com/launch/word,معالج النصوص,visit
+2026-10-12T14:46:05Z,s.harbi,WS-06,https://www.alarabiya.net/saudi-today,أخبار اليوم,visit
+2026-10-12T14:47:39Z,b.subaie,WS-09,https://www.office.com/launch/word,معالج النصوص,visit
+2026-10-13T06:17:53Z,w.anazi,WS-12,https://www.microsoft.com/ar-sa/windows,ويندوز,visit
+2026-10-13T06:19:07Z,t.maliki,WS-11,https://www.bing.com/search?q=meeting+agenda+template,meeting agenda template,visit
+2026-10-13T07:41:07Z,w.anazi,WS-12,https://www.spa.gov.sa/news/local,وكالة الأنباء السعودية,visit
+2026-10-13T07:58:40Z,h.ghamdi,WS-04,https://outlook.office365.com/mail/inbox,البريد,visit
+2026-10-13T08:24:34Z,h.ghamdi,WS-04,https://docs.microsoft.com/windows/support,دعم ويندوز,visit
+2026-10-13T08:33:14Z,a.saad,WS-01,https://www.alarabiya.net/saudi-today,أخبار اليوم,visit
+2026-10-13T08:37:45Z,r.shammari,WS-08,https://outlook.office365.com/mail/inbox,البريد,visit
+2026-10-13T08:55:42Z,a.saad,WS-01,https://www.spa.gov.sa/news/local,وكالة الأنباء السعودية,visit
+2026-10-13T09:05:25Z,k.mutairi,WS-07,https://www.microsoft.com/ar-sa/windows,ويندوز,visit
+2026-10-13T09:22:05Z,n.otaibi,WS-02,https://outlook.office365.com/mail/inbox,البريد,visit
+2026-10-13T10:16:18Z,r.shammari,WS-08,https://www.spa.gov.sa/news/local,وكالة الأنباء السعودية,visit
+2026-10-13T10:49:20Z,k.mutairi,WS-07,https://www.alarabiya.net/saudi-today,أخبار اليوم,visit
+2026-10-13T11:11:25Z,t.maliki,WS-11,https://www.google.com/search?q=weather+riyadh,weather riyadh,visit
+2026-10-13T12:38:57Z,f.dosari,WS-03,https://www.bing.com/search?q=meeting+agenda+template,meeting agenda template,visit
+2026-10-13T13:25:02Z,w.anazi,WS-12,https://www.microsoft.com/ar-sa/windows,ويندوز,visit
+2026-10-13T13:44:27Z,h.ghamdi,WS-04,https://www.bing.com/search?q=meeting+agenda+template,meeting agenda template,visit
+2026-10-13T13:52:21Z,r.shammari,WS-08,https://www.office.com/launch/word,معالج النصوص,visit
+2026-10-13T13:53:29Z,w.anazi,WS-12,https://outlook.office365.com/mail/inbox,البريد,visit
+2026-10-13T13:59:43Z,n.otaibi,WS-02,https://www.spa.gov.sa/news/local,وكالة الأنباء السعودية,visit
+2026-10-13T14:09:57Z,s.harbi,WS-06,https://www.google.com/search?q=excel+sum+column,excel sum column,visit
+2026-10-13T14:48:45Z,l.qahtani,WS-05,https://outlook.office365.com/mail/inbox,البريد,visit
+2026-10-13T14:52:51Z,w.anazi,WS-12,https://www.alarabiya.net/saudi-today,أخبار اليوم,visit
+2026-10-13T14:55:48Z,b.subaie,WS-09,https://outlook.office365.com/mail/inbox,البريد,visit

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}DigiTrace AI{% endblock %}</title>
+<link rel="icon" href="/assets/img/logo.png" type="image/png">
+<link rel="stylesheet" href="/assets/css/style.css?v=4">
+</head>
+{% from "partials/icons.html" import icon %}
+<body>
+{% block layout %}
+<header class="topbar">
+<a class="brand" href="/"><img class="logo" src="/assets/img/logo.png" alt="DigiTrace AI"></a>
+<div class="topbar-user">
+{% if current_user %}
+<a class="user-chip" href="{{ url_for('account.account') }}">
+<span class="avatar" aria-hidden="true">{{ current_user.full_name[:1] }}</span>
+<span class="user-meta">
+<span class="topbar-name">{{ current_user.full_name }}</span>
+<span class="user-role">{% if current_user.role == 'Admin' %}مدير المنصة{% else %}محقق{% endif %}</span>
+</span>
+</a>
+<form method="post" action="{{ url_for('auth.logout') }}">
+<input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+<button type="submit" class="btn btn-ghost" aria-label="تسجيل الخروج">{{ icon('logout') }}<span>تسجيل الخروج</span></button>
+</form>
+{% endif %}
+</div>
+</header>
+<div class="shell">
+{% include "partials/navigation.html" %}
+<main class="content" id="content">
+{% include "partials/flash.html" %}
+{% block content %}{% endblock %}
+</main>
+</div>
+{% include "partials/delete_dialog.html" %}
+{% endblock %}
+<script src="/assets/js/common.js"></script>
+<script src="/assets/js/admin.js"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

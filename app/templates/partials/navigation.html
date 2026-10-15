@@ -1,0 +1,13 @@
+{% from "partials/icons.html" import icon %}
+<nav class="sidebar" aria-label="التنقل">
+{% if current_user and current_user.role == 'Admin' %}
+<a class="{% if request.endpoint == 'admin.dashboard' %}is-active{% endif %}" href="{{ url_for('admin.dashboard') }}">{{ icon('dashboard') }}<span>لوحة المدير</span></a>
+<a class="{% if request.endpoint and request.endpoint.startswith('admin.investigator') %}is-active{% endif %}" href="{{ url_for('admin.investigators') }}">{{ icon('users') }}<span>المحققون</span></a>
+<a class="{% if request.endpoint in ('admin.cases', 'admin.case_new', 'admin.case_edit') %}is-active{% endif %}" href="{{ url_for('admin.cases') }}">{{ icon('folder') }}<span>القضايا</span></a>
+<a class="{% if request.endpoint == 'account.account' %}is-active{% endif %}" href="{{ url_for('account.account') }}">{{ icon('user') }}<span>الحساب</span></a>
+{% elif current_user and current_user.role == 'Investigator' %}
+<a class="{% if request.endpoint == 'investigator.dashboard' %}is-active{% endif %}" href="{{ url_for('investigator.dashboard') }}">{{ icon('dashboard') }}<span>لوحة المحقق</span></a>
+<a class="{% if request.endpoint in ('investigator.cases', 'investigator.case_detail', 'investigator.results') %}is-active{% endif %}" href="{{ url_for('investigator.cases') }}">{{ icon('folder') }}<span>القضايا</span></a>
+<a class="{% if request.endpoint == 'account.account' %}is-active{% endif %}" href="{{ url_for('account.account') }}">{{ icon('user') }}<span>الحساب</span></a>
+{% endif %}
+</nav>

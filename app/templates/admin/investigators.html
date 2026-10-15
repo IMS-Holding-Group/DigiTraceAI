@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% from "partials/icons.html" import icon %}
+{% block title %}المحققون{% endblock %}
+{% block content %}
+<div class="page-head">
+<div>
+<h1>المحققون</h1>
+<p class="page-lead">{{ total }} محقق في الفريق</p>
+</div>
+<div class="page-actions">
+<a class="btn" href="{{ url_for('admin.investigator_new') }}">{{ icon('plus') }}<span>إضافة محقق</span></a>
+</div>
+</div>
+<section class="panel">
+{% if rows %}
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>الاسم</th><th>اسم المستخدم</th><th>البريد</th><th>تاريخ الإنشاء</th><th><span class="sr-only">إجراءات</span></th></tr>
+</thead>
+<tbody>
+{% for row in rows %}
+<tr>
+<td><span class="cell-title"><span class="avatar avatar-sm" aria-hidden="true">{{ row.full_name[:1] }}</span>{{ row.full_name }}</span></td>
+<td class="ltr">{{ row.username }}</td>
+<td class="ltr">{{ row.email }}</td>
+<td>{{ row.created_at|fmt_dt }}</td>
+<td class="actions">
+<a class="btn-icon" href="{{ url_for('admin.investigator_edit', user_id=row.user_id) }}" aria-label="تعديل {{ row.full_name }}" title="تعديل">{{ icon('edit') }}</a>
+<button type="button" class="btn-icon btn-icon-danger" aria-label="حذف {{ row.full_name }}" title="حذف" data-delete-url="{{ url_for('admin.investigator_delete', user_id=row.user_id) }}" data-delete-label="سيتم حذف المحقق وإزالة إسناداته. هل تريد حذف المحقق؟" data-delete-action="حذف المحقق">{{ icon('trash') }}</button>
+</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+<p class="hint">جميع الأوقات بتوقيت UTC</p>
+{% include "partials/pagination.html" %}
+{% else %}
+<div class="empty">
+{{ icon('users', 'empty-icon') }}
+<p>لا يوجد محققون</p>
+<a class="btn" href="{{ url_for('admin.investigator_new') }}">{{ icon('plus') }}<span>أضف أول محقق</span></a>
+</div>
+{% endif %}
+</section>
+{% endblock %}

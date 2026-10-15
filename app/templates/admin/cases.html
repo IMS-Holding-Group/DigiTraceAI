@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% from "partials/icons.html" import icon, status_chip %}
+{% block title %}القضايا{% endblock %}
+{% block content %}
+<div class="page-head">
+<div>
+<h1>القضايا</h1>
+<p class="page-lead">{{ total }} قضية مسجلة</p>
+</div>
+<div class="page-actions">
+<a class="btn" href="{{ url_for('admin.case_new') }}">{{ icon('plus') }}<span>إضافة قضية</span></a>
+</div>
+</div>
+<section class="panel">
+{% if rows %}
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>العنوان</th><th>الحالة</th><th>المحققون</th><th>الملفات</th><th>تاريخ الإنشاء</th><th><span class="sr-only">إجراءات</span></th></tr>
+</thead>
+<tbody>
+{% for row in rows %}
+<tr>
+<td><span class="cell-title">{{ icon('folder', 'icon icon-muted') }}{{ row.case_title }}</span></td>
+<td>{{ status_chip(row.status) }}</td>
+<td>{% set people = names.get(row.case_id, []) %}{% if people %}<span class="cell-meta">{{ icon('users', 'icon icon-sm icon-muted') }}{{ people|join('، ') }}</span>{% else %}<span class="muted">بدون إسناد</span>{% endif %}</td>
+<td><span class="cell-meta">{{ icon('file', 'icon icon-sm icon-muted') }}{{ row.file_count }}</span></td>
+<td>{{ row.created_at|fmt_dt }}</td>
+<td class="actions">
+<a class="btn-icon" href="{{ url_for('admin.case_edit', case_id=row.case_id) }}" aria-label="تعديل {{ row.case_title }}" title="تعديل">{{ icon('edit') }}</a>
+<button type="button" class="btn-icon btn-icon-danger" aria-label="حذف {{ row.case_title }}" title="حذف" data-delete-url="{{ url_for('admin.case_delete', case_id=row.case_id) }}" data-delete-label="سيتم حذف القضية وملفات أدلتها ونتائجها. هل تريد حذف القضية؟" data-delete-action="حذف القضية">{{ icon('trash') }}</button>
+</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+<p class="hint">جميع الأوقات بتوقيت UTC</p>
+{% include "partials/pagination.html" %}
+{% else %}
+<div class="empty">
+{{ icon('inbox', 'empty-icon') }}
+<p>لا توجد قضايا</p>
+<a class="btn" href="{{ url_for('admin.case_new') }}">{{ icon('plus') }}<span>أضف أول قضية</span></a>
+</div>
+{% endif %}
+</section>
+{% endblock %}

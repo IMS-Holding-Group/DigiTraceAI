@@ -1,0 +1,4 @@
+Options -Indexes
+<FilesMatch "(^\.|\.env|\.db$|\.sqlite|\.sql$|\.bak$|\.log$|\.ini$|\.py$|\.md$|requirements\.txt$)">
+  Require all denied
+</FilesMatch>

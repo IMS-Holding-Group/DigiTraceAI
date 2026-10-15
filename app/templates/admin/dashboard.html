@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% from "partials/icons.html" import icon, status_chip %}
+{% block title %}لوحة المدير{% endblock %}
+{% block content %}
+{% set total = statuses.Open + statuses.Analyzed + statuses.Closed %}
+{% set po = (statuses.Open * 100 / total)|round(2) if total else 0 %}
+{% set pa = (statuses.Analyzed * 100 / total)|round(2) if total else 0 %}
+{% set pc = (statuses.Closed * 100 / total)|round(2) if total else 0 %}
+<div class="page-head">
+<div>
+<h1>لوحة المدير</h1>
+<p class="page-lead">متابعة المحققين والقضايا وملفات الأدلة من مكان واحد</p>
+</div>
+<div class="page-actions">
+<a class="btn" href="{{ url_for('admin.case_new') }}">{{ icon('plus') }}<span>قضية جديدة</span></a>
+<a class="btn btn-ghost" href="{{ url_for('admin.investigator_new') }}">{{ icon('users') }}<span>محقق جديد</span></a>
+</div>
+</div>
+<section class="bento" aria-label="مؤشرات المنصة">
+<article class="kpi kpi-main">
+<h2 class="kpi-title">توزيع القضايا</h2>
+<div class="donut-wrap">
+<div class="donut-box">
+<svg class="donut" viewBox="0 0 42 42" role="img" aria-label="مفتوحة {{ statuses.Open }}، محللة {{ statuses.Analyzed }}، مغلقة {{ statuses.Closed }}">
+<circle class="donut-track" cx="21" cy="21" r="15.915" pathLength="100"></circle>
+{% if total %}
+<circle class="donut-seg seg-open" cx="21" cy="21" r="15.915" pathLength="100" stroke-dasharray="{{ po }} {{ 100 - po }}" stroke-dashoffset="25"></circle>
+<circle class="donut-seg seg-analyzed" cx="21" cy="21" r="15.915" pathLength="100" stroke-dasharray="{{ pa }} {{ 100 - pa }}" stroke-dashoffset="{{ 25 - po }}"></circle>
+<circle class="donut-seg seg-closed" cx="21" cy="21" r="15.915" pathLength="100" stroke-dasharray="{{ pc }} {{ 100 - pc }}" stroke-dashoffset="{{ 25 - po - pa }}"></circle>
+{% endif %}
+</svg>
+<p class="donut-center"><strong>{{ total }}</strong><span>قضية</span></p>
+</div>
+<ul class="legend">
+<li><span class="key key-open"></span><span>مفتوحة</span><strong>{{ statuses.Open }}</strong></li>
+<li><span class="key key-analyzed"></span><span>محللة</span><strong>{{ statuses.Analyzed }}</strong></li>
+<li><span class="key key-closed"></span><span>مغلقة</span><strong>{{ statuses.Closed }}</strong></li>
+</ul>
+</div>
+</article>
+<article class="kpi">
+<span class="kpi-label">المحققون</span>
+<strong class="kpi-value">{{ investigators }}</strong>
+<a class="kpi-link" href="{{ url_for('admin.investigators') }}">إدارة المحققين {{ icon('arrow', 'icon icon-sm') }}</a>
+{{ icon('users', 'kpi-icon') }}
+</article>
+<article class="kpi">
+<span class="kpi-label">ملفات الأدلة</span>
+<strong class="kpi-value">{{ files }}</strong>
+{{ icon('file', 'kpi-icon') }}
+</article>
+<article class="kpi">
+<span class="kpi-label">قضايا مفتوحة</span>
+<strong class="kpi-value">{{ statuses.Open }}</strong>
+<span class="kpi-foot">{{ po|round|int }}% من القضايا</span>
+{{ icon('folder-open', 'kpi-icon') }}
+</article>
+<article class="kpi">
+<span class="kpi-label">قضايا محللة</span>
+<strong class="kpi-value">{{ statuses.Analyzed }}</strong>
+<span class="kpi-foot">{{ pa|round|int }}% من القضايا</span>
+{{ icon('check', 'kpi-icon') }}
+</article>
+</section>
+<section class="panel">
+<div class="panel-head">
+<h2>{{ icon('clock') }}آخر القضايا</h2>
+<a class="link-more" href="{{ url_for('admin.cases') }}">كل القضايا {{ icon('arrow', 'icon icon-sm') }}</a>
+</div>
+{% if cases %}
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>العنوان</th><th>الحالة</th><th>تاريخ الإنشاء</th></tr>
+</thead>
+<tbody>
+{% for row in cases %}
+<tr>
+<td><span class="cell-title">{{ icon('folder', 'icon icon-muted') }}{{ row.case_title }}</span></td>
+<td>{{ status_chip(row.status) }}</td>
+<td>{{ row.created_at|fmt_dt }}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+<p class="hint">جميع الأوقات بتوقيت UTC</p>
+{% else %}
+<div class="empty">
+{{ icon('inbox', 'empty-icon') }}
+<p>لا توجد قضايا بعد</p>
+<a class="btn" href="{{ url_for('admin.case_new') }}">{{ icon('plus') }}<span>أضف أول قضية</span></a>
+</div>
+{% endif %}
+</section>
+{% endblock %}

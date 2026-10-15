@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% from "partials/icons.html" import icon, status_chip %}
+{% block title %}لوحة المحقق{% endblock %}
+{% block content %}
+{% set total = cases|length %}
+{% set open_count = cases|selectattr('status', 'equalto', 'Open')|list|length %}
+{% set analyzed_count = cases|selectattr('status', 'equalto', 'Analyzed')|list|length %}
+{% set closed_count = total - open_count - analyzed_count %}
+{% set wo = (open_count * 100 / total)|round(2) if total else 0 %}
+{% set wa = (analyzed_count * 100 / total)|round(2) if total else 0 %}
+<div class="page-head">
+<div>
+<h1>لوحة المحقق</h1>
+<p class="page-lead">القضايا المسندة إليك، من رفع الدليل حتى قراءة الخط الزمني</p>
+</div>
+</div>
+<section class="bento bento-wide" aria-label="مؤشرات قضاياك">
+<article class="kpi kpi-span">
+<span class="kpi-label">القضايا المسندة</span>
+<strong class="kpi-value">{{ total }}</strong>
+<svg class="stack-bar" viewBox="0 0 100 6" preserveAspectRatio="none" role="img" aria-label="مفتوحة {{ open_count }}، محللة {{ analyzed_count }}، مغلقة {{ closed_count }}">
+<rect class="bar-track" x="0" y="0" width="100" height="6" rx="3"></rect>
+{% if total %}
+<rect class="seg-open" x="{{ 100 - wo }}" y="0" width="{{ wo }}" height="6"></rect>
+<rect class="seg-analyzed" x="{{ 100 - wo - wa }}" y="0" width="{{ wa }}" height="6"></rect>
+<rect class="seg-closed" x="0" y="0" width="{{ 100 - wo - wa }}" height="6"></rect>
+{% endif %}
+</svg>
+<ul class="legend legend-row">
+<li><span class="key key-open"></span><span>مفتوحة</span><strong>{{ open_count }}</strong></li>
+<li><span class="key key-analyzed"></span><span>محللة</span><strong>{{ analyzed_count }}</strong></li>
+<li><span class="key key-closed"></span><span>مغلقة</span><strong>{{ closed_count }}</strong></li>
+</ul>
+{{ icon('folder', 'kpi-icon') }}
+</article>
+<article class="kpi">
+<span class="kpi-label">بانتظار التحليل</span>
+<strong class="kpi-value">{{ open_count }}</strong>
+{{ icon('cpu', 'kpi-icon') }}
+</article>
+<article class="kpi">
+<span class="kpi-label">ملفات الأدلة</span>
+<strong class="kpi-value">{{ cases|sum(attribute='file_count') }}</strong>
+{{ icon('file', 'kpi-icon') }}
+</article>
+<article class="kpi">
+<span class="kpi-label">الأحداث المستخرجة</span>
+<strong class="kpi-value">{{ cases|sum(attribute='event_count') }}</strong>
+{{ icon('activity', 'kpi-icon') }}
+</article>
+</section>
+<section class="panel">
+<div class="panel-head">
+<h2>{{ icon('clock') }}أحدث القضايا</h2>
+{% if total > 5 %}<a class="link-more" href="{{ url_for('investigator.cases') }}">كل القضايا {{ icon('arrow', 'icon icon-sm') }}</a>{% endif %}
+</div>
+{% if cases %}
+<ul class="row-list">
+{% for row in cases[:5] %}
+<li>
+<a class="row-link" href="{{ url_for('investigator.case_detail', case_id=row.case_id) }}">
+{{ icon('folder', 'icon icon-muted') }}
+<span class="row-main">
+<span class="row-title">{{ row.case_title }}</span>
+<span class="row-meta"><span class="cell-meta">{{ icon('file', 'icon icon-sm') }}{{ row.file_count }} ملف</span><span class="cell-meta">{{ icon('activity', 'icon icon-sm') }}{{ row.event_count }} حدث</span>{{ row.created_at|fmt_dt }}</span>
+</span>
+{{ status_chip(row.status) }}
+{{ icon('arrow', 'icon icon-muted row-chevron') }}
+</a>
+</li>
+{% endfor %}
+</ul>
+<p class="hint">جميع الأوقات بتوقيت UTC</p>
+{% else %}
+<div class="empty">
+{{ icon('inbox', 'empty-icon') }}
+<p>لا توجد قضايا مسندة إليك</p>
+</div>
+{% endif %}
+</section>
+{% endblock %}

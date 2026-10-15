@@ -1,0 +1,7 @@
+{% if pages and pages > 1 %}
+<nav class="pager" aria-label="ترقيم الصفحات">
+{% for number in range(1, pages + 1) %}
+<a class="pager-link{% if number == page %} is-active{% endif %}" href="?page={{ number }}">{{ number }}</a>
+{% endfor %}
+</nav>
+{% endif %}

@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% from "partials/icons.html" import icon, status_chip %}
+{% block title %}{{ case_row.case_title }}{% endblock %}
+{% block content %}
+<a class="back-link" href="{{ url_for('investigator.cases') }}">{{ icon('arrow', 'icon icon-sm') }}القضايا</a>
+<div class="page-head">
+<div>
+<h1 class="title-row">{{ case_row.case_title }} {{ status_chip(case_row.status) }}</h1>
+{% if case_row.description %}<p class="page-lead">{{ case_row.description }}</p>{% endif %}
+</div>
+<div class="page-actions">
+<a class="btn btn-ghost" href="{{ url_for('investigator.results', case_id=case_row.case_id) }}">{{ icon('chart') }}<span>عرض النتائج</span></a>
+</div>
+</div>
+<div class="case-grid">
+<section class="panel">
+<div class="panel-head">
+<h2>{{ icon('layers') }}ملفات الأدلة</h2>
+<span class="cell-meta">{{ icon('file', 'icon icon-sm') }}{{ files|length }} ملف</span>
+<span class="cell-meta">{{ icon('activity', 'icon icon-sm') }}{{ files|sum(attribute='event_count') }} حدث</span>
+</div>
+{% if files %}
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>الاسم</th><th>المصدر</th><th>الرافع</th><th>الوقت</th><th>SHA-256</th><th>عدد الأحداث</th></tr>
+</thead>
+<tbody>
+{% for row in files %}
+<tr>
+<td><span class="cell-title">{{ icon('file', 'icon icon-muted') }}{{ row.file_name }}</span></td>
+<td><span class="chip">{{ row.source_type|source_label }}</span></td>
+<td>{{ row.uploader_name }}</td>
+<td>{{ row.upload_date|fmt_dt }}</td>
+<td><span class="hash" title="{{ row.file_hash }}">{{ row.file_hash }}</span></td>
+<td>{{ row.event_count }}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+<p class="hint">جميع الأوقات بتوقيت UTC</p>
+{% else %}
+<div class="empty">
+{{ icon('upload', 'empty-icon') }}
+<p>لم يُرفع أي ملف بعد</p>
+</div>
+{% endif %}
+</section>
+<div class="case-side">
+{% if case_row.status == 'Closed' %}
+<p class="notice">{{ icon('archive') }}القضية مغلقة ولا يمكن رفع الملفات أو تحليلها</p>
+{% else %}
+<section class="panel">
+<h2 class="panel-title">{{ icon('upload') }}رفع دليل</h2>
+<form method="post" action="{{ url_for('investigator.upload', case_id=case_row.case_id) }}" enctype="multipart/form-data">
+<input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+<label for="evidence_file">الملف</label>
+<div class="drop">
+{{ icon('file', 'drop-icon') }}
+<input id="evidence_file" name="evidence_file" type="file" accept=".csv,.json,.log,.txt">
+<span class="hint">CSV أو JSON أو LOG أو TXT</span>
+</div>
+<label for="source_type">نوع المصدر</label>
+<select id="source_type" name="source_type">
+<option value="Log">سجلات النظام والتطبيقات</option>
+<option value="Browser History">سجل المتصفح</option>
+<option value="Login Events">أحداث تسجيل الدخول</option>
+<option value="File Events">أحداث الملفات</option>
+</select>
+<label for="tz_offset">المنطقة الزمنية</label>
+<select id="tz_offset" name="tz_offset">
+{% for minutes, label in offsets %}
+<option value="{{ minutes }}" {% if minutes == 0 %}selected{% endif %}>{{ label }}</option>
+{% endfor %}
+</select>
+<p class="hint">تُستخدم فقط عندما لا يحتوي الملف على منطقة زمنية</p>
+<button type="submit" class="btn btn-block">{{ icon('upload') }}<span>رفع الملف</span></button>
+</form>
+</section>
+<section class="panel">
+<h2 class="panel-title">{{ icon('cpu') }}التحليل</h2>
+<button type="button" class="btn btn-block" id="analyze-button" data-analyze-url="{{ url_for('investigator.analyze', case_id=case_row.case_id) }}" data-csrf="{{ csrf_token }}">{{ icon('activity') }}<span>تحليل البيانات</span></button>
+<p id="analyze-status" class="hint" aria-live="polite"></p>
+</section>
+{% endif %}
+</div>
+</div>
+{% endblock %}
+{% block scripts %}<script src="/assets/js/upload.js"></script>{% endblock %}

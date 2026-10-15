@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% from "partials/icons.html" import icon %}
+{% block title %}تسجيل الدخول{% endblock %}
+{% block layout %}
+<main class="login-page">
+<section class="login-box">
+<img class="login-logo" src="/assets/img/logo.png" alt="DigiTrace AI">
+<h1>تسجيل الدخول</h1>
+<p class="page-lead">ارفع الدليل، ويتولى المحرك الربط والملخص والخط الزمني</p>
+{% if error %}<p class="flash flash-error">{{ error }}</p>{% endif %}
+<form method="post" action="{{ url_for('auth.login') }}">
+<input type="hidden" name="csrf_token" value="{{ login_csrf }}">
+<label for="identifier">البريد الإلكتروني أو اسم المستخدم</label>
+<input id="identifier" name="identifier" type="text" autocomplete="username" autofocus>
+<label for="password">كلمة السر</label>
+<div class="password-row">
+<input id="password" name="password" type="password" autocomplete="current-password">
+<button type="button" class="btn btn-ghost" data-toggle-password="password">إظهار</button>
+</div>
+<button type="submit" class="btn">{{ icon('shield') }}<span>دخول</span></button>
+</form>
+</section>
+</main>
+{% endblock %}

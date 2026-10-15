@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% from "partials/icons.html" import icon %}
+{% block title %}الحساب{% endblock %}
+{% block content %}
+<section class="profile-head">
+<span class="avatar avatar-lg" aria-hidden="true">{{ current_user.full_name[:1] }}</span>
+<div>
+<h1>{{ current_user.full_name }}</h1>
+<p class="profile-meta"><span class="ltr">@{{ current_user.username }}</span><span class="chip">{% if current_user.role == 'Admin' %}مدير المنصة{% else %}محقق{% endif %}</span></p>
+</div>
+{{ icon('fingerprint', 'profile-mark') }}
+</section>
+<form method="post" action="{{ url_for('account.account') }}" class="account-grid">
+<input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+<section class="panel">
+<h2 class="panel-title">{{ icon('user') }}معلومات الحساب</h2>
+<label for="full_name">الاسم</label>
+<input id="full_name" name="full_name" type="text" value="{{ form.full_name }}" autocomplete="name">
+{% if errors.full_name %}<p class="field-error">{{ errors.full_name }}</p>{% endif %}
+<label for="username">اسم المستخدم</label>
+<input id="username" name="username" type="text" value="{{ form.username }}" autocomplete="username">
+{% if errors.username %}<p class="field-error">{{ errors.username }}</p>{% endif %}
+<label for="email">البريد الإلكتروني</label>
+<input id="email" name="email" type="text" value="{{ form.email }}" autocomplete="email">
+{% if errors.email %}<p class="field-error">{{ errors.email }}</p>{% endif %}
+</section>
+<section class="panel">
+<h2 class="panel-title">{{ icon('key') }}تغيير كلمة السر</h2>
+<label for="current_password">كلمة السر الحالية</label>
+<div class="password-row">
+<input id="current_password" name="current_password" type="password" autocomplete="current-password">
+<button type="button" class="btn btn-ghost" data-toggle-password="current_password">إظهار</button>
+</div>
+{% if errors.current_password %}<p class="field-error">{{ errors.current_password }}</p>{% endif %}
+<label for="new_password">كلمة السر الجديدة</label>
+<div class="password-row">
+<input id="new_password" name="new_password" type="password" autocomplete="new-password">
+<button type="button" class="btn btn-ghost" data-toggle-password="new_password">إظهار</button>
+</div>
+{% if errors.new_password %}<p class="field-error">{{ errors.new_password }}</p>{% endif %}
+<label for="confirm_password">تأكيد كلمة السر</label>
+<div class="password-row">
+<input id="confirm_password" name="confirm_password" type="password" autocomplete="new-password">
+<button type="button" class="btn btn-ghost" data-toggle-password="confirm_password">إظهار</button>
+</div>
+{% if errors.confirm_password %}<p class="field-error">{{ errors.confirm_password }}</p>{% endif %}
+</section>
+<div class="form-actions account-actions">
+<button type="submit" class="btn">{{ icon('check') }}<span>حفظ التغييرات</span></button>
+</div>
+</form>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% from "partials/icons.html" import icon, status_chip %}
+{% block title %}القضايا المسندة{% endblock %}
+{% block content %}
+<div class="page-head">
+<div>
+<h1>القضايا المسندة</h1>
+<p class="page-lead">{{ cases|length }} قضية مسندة إليك</p>
+</div>
+</div>
+<section class="panel">
+{% if cases %}
+<div class="table-wrap">
+<table>
+<thead>
+<tr><th>القضية</th><th>الحالة</th><th>الملفات</th><th>الأحداث</th><th>تاريخ الإنشاء</th></tr>
+</thead>
+<tbody>
+{% for row in cases %}
+<tr>
+<td><a class="cell-title" href="{{ url_for('investigator.case_detail', case_id=row.case_id) }}">{{ icon('folder', 'icon icon-muted') }}{{ row.case_title }}</a></td>
+<td>{{ status_chip(row.status) }}</td>
+<td><span class="cell-meta">{{ icon('file', 'icon icon-sm icon-muted') }}{{ row.file_count }}</span></td>
+<td><span class="cell-meta">{{ icon('activity', 'icon icon-sm icon-muted') }}{{ row.event_count }}</span></td>
+<td>{{ row.created_at|fmt_dt }}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+<p class="hint">جميع الأوقات بتوقيت UTC</p>
+{% else %}
+<div class="empty">
+{{ icon('inbox', 'empty-icon') }}
+<p>لا توجد قضايا مسندة إليك</p>
+</div>
+{% endif %}
+</section>
+{% endblock %}
