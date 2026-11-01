@@ -1,7 +1,20 @@
 from flask import Blueprint, abort, flash, g, make_response, redirect, render_template, request, url_for
 
 from app import config
-from app.security import check_password, client_ip, dummy_check, issue_login_csrf, record_attempt, too_many_attempts, valid_login_csrf
+from app.security import (
+    check_password,
+    client_ip,
+    dummy_check,
+    issue_login_csrf,
+    record_attempt,
+    too_many_attempts,
+    valid_email,
+    valid_login_csrf,
+    valid_name,
+    valid_password,
+    valid_username,
+)
+from app.services.users import create_investigator, email_taken, username_taken
 from app.sessions import create_session, destroy_session
 
 bp = Blueprint("auth", __name__)
@@ -68,7 +81,60 @@ def login():
                 response.delete_cookie("dt_login_csrf", path="/")
                 return response
     token = issue_login_csrf()
-    response = make_response(render_template("login.html", error=error, login_csrf=token), status)
+    notice = "تم إنشاء الحساب، سجّل الدخول للمتابعة" if request.method == "GET" and request.args.get("registered") == "1" else ""
+    response = make_response(render_template("login.html", error=error, notice=notice, login_csrf=token), status)
+    response.set_cookie("dt_login_csrf", token, max_age=3600, **_cookie_flags())
+    return response
+
+
+@bp.route("/register", methods=["GET", "POST"])
+def register():
+    if g.user:
+        return redirect(home_for(g.user))
+    form = {"full_name": "", "username": "", "email": ""}
+    errors = {}
+    status = 200
+    if request.method == "POST":
+        form_token = request.form.get("csrf_token", "")
+        cookie_token = request.cookies.get("dt_login_csrf", "")
+        full_name = request.form.get("full_name", "").strip()
+        username = request.form.get("username", "").strip().lower()
+        email = request.form.get("email", "").strip().lower()
+        password = request.form.get("password", "")
+        confirm = request.form.get("confirm_password", "")
+        form = {"full_name": full_name, "username": username, "email": email}
+        if not valid_login_csrf(form_token, cookie_token):
+            errors["form"] = "تعذر تنفيذ الطلب، أعد تحميل الصفحة وحاول مرة أخرى"
+            status = 400
+        else:
+            if not valid_name(full_name):
+                errors["full_name"] = "الاسم يجب أن يكون بين 2 و100 حرف"
+            if not valid_username(username):
+                errors["username"] = "اسم المستخدم من 3 إلى 32 حرفاً لاتينياً أو رقماً أو . أو _ أو - وليس أرقاماً فقط"
+            elif username_taken(g.db, username):
+                errors["username"] = "اسم المستخدم مستخدم بالفعل"
+            if not valid_email(email):
+                errors["email"] = "أدخل بريداً إلكترونياً صالحاً"
+            elif email_taken(g.db, email):
+                errors["email"] = "البريد الإلكتروني مستخدم بالفعل"
+            if not valid_password(password):
+                errors["password"] = "كلمة السر 10 أحرف على الأقل وتتضمن حرفاً كبيراً وصغيراً ورقماً"
+            elif password != confirm:
+                errors["confirm_password"] = "كلمتا السر غير متطابقتين"
+            if errors:
+                status = 400
+            else:
+                try:
+                    create_investigator(g.db, full_name, username, email, password)
+                    response = make_response(redirect(url_for("auth.login", registered=1)))
+                    response.delete_cookie("dt_login_csrf", path="/")
+                    return response
+                except Exception:
+                    g.db.rollback()
+                    errors["form"] = "تعذر إنشاء الحساب"
+                    status = 500
+    token = issue_login_csrf()
+    response = make_response(render_template("register.html", form=form, errors=errors, login_csrf=token), status)
     response.set_cookie("dt_login_csrf", token, max_age=3600, **_cookie_flags())
     return response
 

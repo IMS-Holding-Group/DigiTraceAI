@@ -61,7 +61,7 @@ def create_app():
             return None
         g.db = connect()
         load_session()
-        if request.method in ("POST", "PUT", "DELETE") and request.endpoint not in ("auth.login",):
+        if request.method in ("POST", "PUT", "DELETE") and request.endpoint not in ("auth.login", "auth.register"):
             if g.user and not csrf_valid():
                 if request.path.startswith("/api/") or request.path.endswith("/analyze"):
                     return jsonify({"ok": False, "error": "تعذر تنفيذ الطلب"}), 400

@@ -959,6 +959,12 @@ tbody tr:hover { background: rgba(12, 124, 150, 0.05) }
  margin-top: 16px;
  width: 100%;
  max-width: none }
+.login-alt {
+ margin: 16px 0 0;
+ text-align: center }
+.login-alt a {
+ font-weight: 600;
+ color: var(--color-primary) }
 .login-box .password-row { width: 100% }
 .login-box .password-row input {
  width: auto;

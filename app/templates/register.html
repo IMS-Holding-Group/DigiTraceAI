@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% from "partials/icons.html" import icon %}
+{% block title %}إضافة حساب جديد{% endblock %}
+{% block layout %}
+<main class="login-page">
+<section class="login-box">
+<img class="login-logo" src="/assets/img/logo.png" alt="DigiTrace AI">
+<h1>إضافة حساب جديد</h1>
+<p class="page-lead">أنشئ حساب محقق للبدء برفع الأدلة وتحليلها</p>
+{% if errors.form %}<p class="flash flash-error">{{ errors.form }}</p>{% endif %}
+<form method="post" action="{{ url_for('auth.register') }}">
+<input type="hidden" name="csrf_token" value="{{ login_csrf }}">
+<label for="full_name">الاسم</label>
+<input id="full_name" name="full_name" type="text" value="{{ form.full_name }}" autocomplete="name" autofocus>
+{% if errors.full_name %}<p class="field-error">{{ errors.full_name }}</p>{% endif %}
+<label for="username">اسم المستخدم</label>
+<input id="username" name="username" type="text" value="{{ form.username }}" autocomplete="username">
+{% if errors.username %}<p class="field-error">{{ errors.username }}</p>{% endif %}
+<label for="email">البريد الإلكتروني</label>
+<input id="email" name="email" type="text" value="{{ form.email }}" autocomplete="email">
+{% if errors.email %}<p class="field-error">{{ errors.email }}</p>{% endif %}
+<label for="password">كلمة السر</label>
+<div class="password-row">
+<input id="password" name="password" type="password" autocomplete="new-password">
+<button type="button" class="btn btn-ghost" data-toggle-password="password">إظهار</button>
+</div>
+{% if errors.password %}<p class="field-error">{{ errors.password }}</p>{% endif %}
+<label for="confirm_password">تأكيد كلمة السر</label>
+<div class="password-row">
+<input id="confirm_password" name="confirm_password" type="password" autocomplete="new-password">
+<button type="button" class="btn btn-ghost" data-toggle-password="confirm_password">إظهار</button>
+</div>
+{% if errors.confirm_password %}<p class="field-error">{{ errors.confirm_password }}</p>{% endif %}
+<button type="submit" class="btn">{{ icon('check') }}<span>إنشاء الحساب</span></button>
+</form>
+<p class="login-alt">لديك حساب؟ <a href="{{ url_for('auth.login') }}">تسجيل الدخول</a></p>
+</section>
+</main>
+{% endblock %}
