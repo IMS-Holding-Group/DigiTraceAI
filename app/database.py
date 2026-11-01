@@ -41,10 +41,39 @@ def _need(name):
     return os.getenv(name, "").strip()
 
 
+def _sync_seed_accounts(conn, values):
+    """Create or update the seed accounts so they match the SEED_* variables."""
+    now = utc_now()
+    accounts = (
+        ("ADMIN", "Admin"),
+        ("INV1", "Investigator"),
+        ("INV2", "Investigator"),
+    )
+    for prefix, role in accounts:
+        full_name = values[f"SEED_{prefix}_NAME"]
+        username = values[f"SEED_{prefix}_USERNAME"].strip().lower()
+        email = values[f"SEED_{prefix}_EMAIL"].strip().lower()
+        password_hash = hash_password(values[f"SEED_{prefix}_PASSWORD"])
+        row = conn.execute(
+            "SELECT user_id FROM users WHERE username = ? OR email = ?", (username, email)
+        ).fetchone()
+        if row is None:
+            conn.execute(
+                """INSERT INTO users (full_name, username, email, password_hash, role, created_at)
+                   VALUES (?, ?, ?, ?, ?, ?)""",
+                (full_name, username, email, password_hash, role, now),
+            )
+        else:
+            conn.execute(
+                "UPDATE users SET full_name = ?, username = ?, email = ?, password_hash = ?, role = ? WHERE user_id = ?",
+                (full_name, username, email, password_hash, role, row["user_id"]),
+            )
+    conn.execute("DELETE FROM login_attempts")
+    conn.commit()
+
+
 def _seed(conn):
     existing = conn.execute("SELECT COUNT(*) AS total FROM users").fetchone()["total"]
-    if existing:
-        return
     fields = (
         "SEED_ADMIN_NAME", "SEED_ADMIN_USERNAME", "SEED_ADMIN_EMAIL", "SEED_ADMIN_PASSWORD",
         "SEED_INV1_NAME", "SEED_INV1_USERNAME", "SEED_INV1_EMAIL", "SEED_INV1_PASSWORD",
@@ -52,6 +81,10 @@ def _seed(conn):
     )
     values = {name: _need(name) for name in fields}
     if any(not values[name] for name in fields):
+        return
+    if existing:
+        if _need("SEED_SYNC") == "1":
+            _sync_seed_accounts(conn, values)
         return
     now = utc_now()
     accounts = (
